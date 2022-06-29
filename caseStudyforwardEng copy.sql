@@ -14,6 +14,9 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema casestudy
 -- -----------------------------------------------------
+
+                                                            -- CREATE ///
+
 CREATE SCHEMA IF NOT EXISTS casestudy DEFAULT CHARACTER SET utf8 ;
 USE casestudy;
 
@@ -36,6 +39,19 @@ CREATE TABLE IF NOT EXISTS casestudy.Employees (
   PRIMARY KEY (id_employee))
 ENGINE = InnoDB;
 
+-- Pro 1
+
+                                        -- READ
+
+SELECT * FROM casestudy.Employees;
+
+
+                                      -- UPDATE ///
+
+UPDATE casestudy.Employees
+SET firstname  = 'Alfred Schmidt'
+WHERE id_employee = 3;
+
 
 -- -----------------------------------------------------
 -- Table `casestudy`.`Roles`
@@ -56,6 +72,9 @@ CREATE TABLE IF NOT EXISTS casestudy.Roles (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- Pro 2
+SELECT salary_role FROM casestudy.Roles WHERE salary_role > 25000;
+ 
 
 -- -----------------------------------------------------
 -- Table `casestudy`.`Payment`
@@ -71,11 +90,13 @@ CREATE TABLE IF NOT EXISTS casestudy.Payment (
   PRIMARY KEY (id_payment))
 ENGINE = InnoDB;
 
+-- Pro 3
+SELECT amount FROM casestudy.Payment WHERE bookid_fk = 2;
 
 -- -----------------------------------------------------
 -- Table `casestudy`.`Inventory`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS mydb.Inventory (
+CREATE TABLE IF NOT EXISTS casestudy.Inventory (
   books INT NOT NULL,
   computers INT NOT NULL,
   printers INT NOT NULL,
@@ -86,6 +107,9 @@ CREATE TABLE IF NOT EXISTS mydb.Inventory (
   PRIMARY KEY (id_librarycost))
 ENGINE = InnoDB;
 
+-- Pro 4 & 5
+SELECT computers FROM casestudy.Inventory WHERE computers = 500;
+SELECT furniture FROM casestudy.Inventory WHERE furniture < 10;
 
 -- -----------------------------------------------------
 -- Table `casestudy`.`CheckOuts`
@@ -105,6 +129,11 @@ CREATE TABLE IF NOT EXISTS casestudy.CheckOuts (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- Pro 6 & 7
+SELECT checkout_date FROM casestudy.CheckOuts WHERE checkout_date = "2021-01-01";
+SELECT overdue FROM casestudy.CheckOuts WHERE overdue >  "2021-02-02";
+
 
 
 -- -----------------------------------------------------
@@ -145,6 +174,14 @@ CREATE TABLE IF NOT EXISTS casestudy.Books (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- Pro 8 & 9
+SELECT title FROM casestudy.Books WHERE title = "Maze Runner";
+
+SELECT * FROM casestudy.Books WHERE page_count > 275;
+
+                                                                      -- DELETE  
+
+DELETE FROM casestudy.Books WHERE title = "Maze Runner";
 
 -- -----------------------------------------------------
 -- Table `casestudy`.`Customers`
@@ -161,7 +198,7 @@ CREATE TABLE IF NOT EXISTS casestudy.Customers (
   phone_number VARCHAR(45) NOT NULL,
   create_data DATETIME NOT NULL,
   last_checkout DATETIME NOT NULL,
-  overdue_books VARCHAR(45) NOT NULL,
+  overdue_books INT NOT NULL,
   Payment_id_payment INT NOT NULL,
   Books_id_books INT NOT NULL,
   CheckOuts_customer_id_fk INT NOT NULL,
@@ -186,6 +223,8 @@ CREATE TABLE IF NOT EXISTS casestudy.Customers (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- Pro 10
+SELECT * FROM casestudy.Customers WHERE overdue_books > 1;
 
 -- -----------------------------------------------------
 -- Table `casestudy`.`bookType`
